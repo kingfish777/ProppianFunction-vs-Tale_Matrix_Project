@@ -1,0 +1,2 @@
+A_9 B_5  depart D1_7 E1_7 f1_9  D2_1 E2_7 f2_1        return          MOVE
+   a_6 B_5 C depart D1_1 E1_1 F1  D2_1 E2_1 F2        return     

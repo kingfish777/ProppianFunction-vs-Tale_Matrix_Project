@@ -1,0 +1,2 @@
+Dpre Epre Fpre A_8   depart        G_1               W  MOVE
+   A_10           G_2           t  q   

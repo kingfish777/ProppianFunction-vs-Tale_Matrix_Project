@@ -1,0 +1,2 @@
+A_9 B C depart   F1_6  D2_9 E2_9 F2_9 G_6     I_5 K_4 return          MOVE 
+   A_1  C depart   F1_6 G_5          K_4        U W  

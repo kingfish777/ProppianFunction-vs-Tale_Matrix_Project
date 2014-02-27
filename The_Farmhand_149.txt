@@ -1,0 +1,2 @@
+Dpre Epre  a_6 B_2 C depart              K_7 return          MOVE 
+   a_5 B_2 C depart           H_2  I_2 K_1 return Pr Rs     U w_0 

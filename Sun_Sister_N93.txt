@@ -1,0 +1,3 @@
+   A_xvii B_3  depart d1_6 E1_7 F1                       MOVE
+   a_6 B_3  depart d1_7 E1_7 F1_1                       MOVE
+   A_xvii   depart           Pr_1  Rs_2   H_4 I_4      W_w  

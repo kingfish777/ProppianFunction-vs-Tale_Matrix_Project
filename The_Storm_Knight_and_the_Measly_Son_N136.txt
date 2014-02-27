@@ -1,0 +1,3 @@
+a_6 B_1 C  D1_2 E1_2            KF2           MOVE
+   A_1 B_2 C               K_5           MOVE
+A_1  C            H_1  I_1 K_1 return Pr_4 Rs_7  

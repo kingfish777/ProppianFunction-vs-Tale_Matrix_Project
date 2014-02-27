@@ -1,0 +1,3 @@
+A_6   depart  E1_7 F1_2          Rs_4 K_5           MOVE
+   A_18 B C depart D1_1 E1_1 F1_1          I_6            
+
