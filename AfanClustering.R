@@ -36,6 +36,10 @@ nplot(dtm_complete, hang=1, axes = TRUE, ann=TRUE, main = "Cluster Dendrogram Re
 phyl <- as.phylo(hclust(dtm_distro))
 plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.length > 20)])
 
+#see how well particular functions correlate with each other above or beneath a threshold value
+plot(dtm, corThreshold=.1)
+
+
 
 
 
