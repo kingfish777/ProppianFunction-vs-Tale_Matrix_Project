@@ -1,13 +1,13 @@
 ##Adventures in Proppian Function-Magic Tale Matrices
 ___________________________________________________________________________________
 #R libraries used: 
-* ape
-* Rgraphviz
-* tm
+** ape
+** Rgraphviz
+** tm
 ___________________________________________________________________________________
 
 #Russian Magic Tales from Appendix III of Propp's Morphology of the Fairy Tale
-___________________________________________________________________________________
+_________________
 93 Sun_Sister.txt
 _________________
    * A_xvii B_3  depart d1_6 E1_7 F1                       MOVE
