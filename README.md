@@ -13,35 +13,42 @@ _________________
    * A_xvii B_3  depart d1_6 E1_7 F1                       MOVE
    * a_6 B_3  depart d1_7 E1_7 F1_1                       MOVE
    * A_xvii   depart           Pr_1  Rs_2   H_4 I_4      W_w 
+    
 _________________
 95 Jack_Frost.txt
 _________________
    * A_9 B_5   D1_1 E1_1 F1_1            return          MOVE
    * a_6 B_5 C depart D1_1 E1_1 F1            return
+   
 _________________         
 98 The_Mares_Head.txt
 _________________
    * A_9 B_5  depart D1_7 E1_7 f1_9  D2_1 E2_7 f2_1        return          MOVE
    * a_6 B_5 C depart D1_1 E1_1 F1  D2_1 E2_1 F2        return
+   
 _________________         
 100 Havrushka.txt
 _________________
    * A_ii    D1_3 E1_3 F1_vi        M  N          W
+   
 _________________ 
 101 Burenushka_the_Little_Red_Cow.txt
 _________________
    * A_11 B_7 C depart        G o L M  N K_8      Ex  U W   # K_8 out of sequence - after F  before M  N
+   
 _________________
 104 Vasilisa_the_Beautiful.txt
 _________________
    * Fpre_1 a_6 B_2 C depart D1_1 E1_1 F1_1            return       U   MOVE
    * a_1  C depart D1 E1 F1_3  D2 E2 F2_4    M  N          W 
+   
 _________________
 105 Baba_Jaga_and_the_Brave_Youth
 _________________
    * A_3 B_4 C depart              K_7 return          MOVE
    * A_3 B_4 C depart              K_7 return          MOVE
    * Dpre Epre Fpre a_1  C depart D1_8 E1_8 F1_8             Pr_1 Rs_2
+   
 _________________
 106 Baba_Jaga.txt
 _________________
