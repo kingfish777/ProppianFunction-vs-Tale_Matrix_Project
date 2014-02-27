@@ -1,11 +1,13 @@
+
+##Adventures in Funciton-Table Matrices
 ___________________________________________________________________________________
-R libraries used: 
+#R libraries used: 
 ape
 Rgraphviz
 tm
 ___________________________________________________________________________________
 
-Russian Magic Tales from Appendix III of Propp's Morphology of the Fairy Tale
+#Russian Magic Tales from Appendix III of Propp's Morphology of the Fairy Tale
 ___________________________________________________________________________________
 93 Sun_Sister.txt
 _________________
