@@ -1,4 +1,3 @@
-
 ___________________________________________________________________________________
 R libraries used: 
 ape
@@ -8,44 +7,38 @@ ________________________________________________________________________________
 
 Russian Magic Tales from Appendix III of Propp's Morphology of the Fairy Tale
 ___________________________________________________________________________________
-%93 Sun_Sister.txt
+93 Sun_Sister.txt
    A_xvii B_3  depart d1_6 E1_7 F1                       MOVE
    a_6 B_3  depart d1_7 E1_7 F1_1                       MOVE
    A_xvii   depart           Pr_1  Rs_2   H_4 I_4      W_w 
-%95 Jack_Frost.txt
+95 Jack_Frost.txt
    A_9 B_5   D1_1 E1_1 F1_1            return          MOVE
    a_6 B_5 C depart D1_1 E1_1 F1            return         
-%98 The_Mares_Head.txt
+98 The_Mares_Head.txt
    A_9 B_5  depart D1_7 E1_7 f1_9  D2_1 E2_7 f2_1        return          MOVE
    a_6 B_5 C depart D1_1 E1_1 F1  D2_1 E2_1 F2        return         
-%100 Havrushka.txt
+100 Havrushka.txt
    A_ii    D1_3 E1_3 F1_vi        M  N          W 
-%101 Burenushka_the_Little_Red_Cow.txt
-   A_11 B_7 C depart        G o L M  N K_8      Ex  U W   % K_8 out of sequence - after F  before M  N
-%102
-%
-%
-%104 Vasilisa_the_Beautiful.txt
+101 Burenushka_the_Little_Red_Cow.txt
+   A_11 B_7 C depart        G o L M  N K_8      Ex  U W   :: K_8 out of sequence - after F  before M  N
+104 Vasilisa_the_Beautiful.txt
   Fpre_1 a_6 B_2 C depart D1_1 E1_1 F1_1            return       U   MOVE
    a_1  C depart D1 E1 F1_3  D2 E2 F2_4    M  N          W 
-%105 Baba_Jaga_and_the_Brave_Youth
+105 Baba_Jaga_and_the_Brave_Youth
    A_3 B_4 C depart              K_7 return          MOVE
    A_3 B_4 C depart              K_7 return          MOVE
 Dpre Epre Fpre a_1  C depart D1_8 E1_8 F1_8             Pr_1 Rs_2       
-%106 Baba_Jaga.txt
+106 Baba_Jaga.txt
    A_1 B_4 C depart   F1_3           K_1 return          MOVE
    A_1 B_4 C depart   F1_3           K_1 return          MOVE
    A_1 B_4  depart D1_8 E1_8             return         
-%108 Little_Ivan_and_the_Witch.txt
+108 Little_Ivan_and_the_Witch.txt
    A_1   depart D1_8 E1_8             return Pr_7 Rs_10 L Q Ex T U W X  % there is a second Pr_7 / Rs_1
-%112
-%
-%
-%113 The_Magic_Swan_Geese.txt
+113 The_Magic_Swan_Geese.txt
    A_1 B C depart D1_1 E1_1 F1  d2_7 E2_7 F2_9 G_4      K_1 return         
-%114 Prince_Danila_the_Talker.txt
+114 Prince_Danila_the_Talker.txt
    A_xvi   depart d1_7 E1_7 F1_2  D2_8 E2_8 F2_8        return Pr_1 Rs_4  Q    W   % no 'o'  Rr/Rs doubling
-%115 Right_and_Wrong.txt
+115 Right_and_Wrong.txt
    A_6   depart  E1_7 F1_2          Rs_4 K_5           MOVE
    A_18 B C depart D1_1 E1_1 F1_1          I_6           
 
