@@ -1,4 +1,3 @@
-
 > library(lsa)  # latent semantic analysis aka Singular Value Decomposition (SVD)
 > library(tm) # R text mining module
 > library(RWeka) # Weka data mining
