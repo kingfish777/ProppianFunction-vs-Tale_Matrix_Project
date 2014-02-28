@@ -155,6 +155,8 @@ tm::dissimilarity(x=corpus$Koshchey_the_Deathless_N156.txt, y=corpus$Baba_Jaga_a
 tm::dissimilarity(x=corpus$Sun_Sister_N93.txt, y=corpus$The_Seven_Semyons_N145.txt, method="canberra")
 
 compare <- function(k) { tm::dissimilarity(x=k, y=corpus$The_Flying_Ship_N144.txt, method="canberra") }
+compare <- function(k) { tm::dissimilarity(x=k, y=corpus$Mares_Head_N98.txt, method="canberra") }
+compare <- function(k) { tm::dissimilarity(x=k, y=corpus$Jack_Frost_N95.tx, method="canberra") }
 
 tale_comparison <- lapply(as.list(corpus), compare)
 #####################
