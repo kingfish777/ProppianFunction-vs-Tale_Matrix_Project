@@ -1,0 +1,272 @@
+
+> library(lsa)  # latent semantic analysis aka Singular Value Decomposition (SVD)
+> library(tm) # R text mining module
+> library(RWeka) # Weka data mining
+> library(ape) # http://bioinformatics.oxfordjournals.org/content/20/2/289.abstract
+> # Analysis for Phylogenetic Evolution in R language
+> library(Rgraphviz) #bioConductor's interface to GraphViz, powerful data visualization tool
+> ###############################################
+> # reset this directory to where you unzip/git pull your function texts
+> ###############################################
+> home <- "/home/hinckley"
+> homePath = paste(home, "/Public/DFuncM", sep="") # git pull from github, delete junk, put R scripts in separate folder at higher level
+> setwd(paste(homePath, sep=""))
+> text <- system.file("texts", "txt", package="tm")
+> corpus <- Corpus(DirSource())
+> print(corpus[[13]])
+ A_9 B_5   D1_1 E1_1 F1_1            return          MOVE
+   a_6 B_5 C depart D1_1 E1_1 F1            return          
+> ngrams <- RWeka::NGramTokenizer(corpus, Weka_control(min=1, max=2))
+> print(ngrams)
+   [1] "c a_5"         "a_5 D1"        "D1 E1"         "E1 F1"         "F1 K"          "K T"           "T U"           "U W"           "W MOVE"        "MOVE A_10"    
+  [11] "A_10 B_3"      "B_3 C"         "C G_2"         "G_2 MOVE"      "MOVE a_1"      "a_1 B_3"       "B_3 C"         "C depart"      "depart D1"     "D1 E1"        
+  [21] "E1 F1_9"       "F1_9 M"        "M N"           "N W"           "W return"      "c"             "a_5"           "D1"            "E1"            "F1"           
+  [31] "K"             "T"             "U"             "W"             "MOVE"          "A_10"          "B_3"           "C"             "G_2"           "MOVE"         
+  [41] "a_1"           "B_3"           "C"             "depart"        "D1"            "E1"            "F1_9"          "M"             "N"             "W"            
+  [51] "return"        "c A_3"         "A_3 B_4"       "B_4 C"         "C depart"      "depart K_7"    "K_7 return"    "return MOVE"   "MOVE A_3"      "A_3 B_4"      
+  [61] "B_4 C"         "C depart"      "depart K_7"    "K_7 return"    "return MOVE"   "MOVE Dpre"     "Dpre Epre"     "Epre Fpre"     "Fpre a_1"      "a_1 C"        
+  [71] "C depart"      "depart D1_8"   "D1_8 E1_8"     "E1_8 F1_8"     "F1_8 Pr_1"     "Pr_1 Rs_2"     "c"             "A_3"           "B_4"           "C"            
+  [81] "depart"        "K_7"           "return"        "MOVE"          "A_3"           "B_4"           "C"             "depart"        "K_7"           "return"       
+  [91] "MOVE"          "Dpre"          "Epre"          "Fpre"          "a_1"           "C"             "depart"        "D1_8"          "E1_8"          "F1_8"         
+ [101] "Pr_1"          "Rs_2"          "c A_1"         "A_1 B_4"       "B_4 C"         "C depart"      "depart F1_3"   "F1_3 K_1"      "K_1 return"    "return MOVE"  
+ [111] "MOVE A_1"      "A_1 B_4"       "B_4 C"         "C depart"      "depart F1_3"   "F1_3 K_1"      "K_1 return"    "return MOVE"   "MOVE A_1"      "A_1 B_4"      
+ [121] "B_4 depart"    "depart D1_8"   "D1_8 E1_8"     "E1_8 return"   "c"             "A_1"           "B_4"           "C"             "depart"        "F1_3"         
+ [131] "K_1"           "return"        "MOVE"          "A_1"           "B_4"           "C"             "depart"        "F1_3"          "K_1"           "return"       
+ [141] "MOVE"          "A_1"           "B_4"           "depart"        "D1_8"          "E1_8"          "return"        "a_1 B"         "B C"           "C depart"     
+ [151] "depart G_3"    "G_3 I_5"       "I_5 T_4"       "T_4 W"         "W return"      "a_1"           "B"             "C"             "depart"        "G_3"          
+ [161] "I_5"           "T_4"           "W"             "return"        "A_11 B_7"      "B_7 C"         "C depart"      "depart G"      "G o"           "o L"          
+ [171] "L M"           "M N"           "N K_8"         "K_8 Ex"        "Ex U"          "U W"           "A_11"          "B_7"           "C"             "depart"       
+ [181] "G"             "o"             "L"             "M"             "N"             "K_8"           "Ex"            "U"             "W"             "A_1 B_1"      
+ [191] "B_1 C"         "C depart"      "depart D1_9"   "D1_9 E1_9"     "E1_9 G_6"      "G_6 F2_7"      "F2_7 I_5"      "I_5 K_4"       "K_4 return"    "return W"     
+ [201] "A_1"           "B_1"           "C"             "depart"        "D1_9"          "E1_9"          "G_6"           "F2_7"          "I_5"           "K_4"          
+ [211] "return"        "W"             "c Dpre"        "Dpre Epre"     "Epre Fpre"     "Fpre A_8"      "A_8 depart"    "depart G_1"    "G_1 W"         "W MOVE"       
+ [221] "MOVE A_10"     "A_10 G_2"      "G_2 t"         "t q"           "c"             "Dpre"          "Epre"          "Fpre"          "A_8"           "depart"       
+ [231] "G_1"           "W"             "MOVE"          "A_10"          "G_2"           "t"             "q"             "A_1 B"         "B C"           "C depart"     
+ [241] "depart H_1"    "H_1 I_1"       "I_1 K_4"       "K_4 return"    "return w_0"    "A_1"           "B"             "C"             "depart"        "H_1"          
+ [251] "I_1"           "K_4"           "return"        "w_0"           "A_ii D1_3"     "D1_3 E1_3"     "E1_3 F1_vi"    "F1_vi M"       "M N"           "N W"          
+ [261] "A_ii"          "D1_3"          "E1_3"          "F1_vi"         "M"             "N"             "W"             "A_9 depart"    "depart H_2"    "H_2 I_2"      
+ [271] "I_2 K_1"       "K_1 return"    "A_9"           "depart"        "H_2"           "I_2"           "K_1"           "return"        "c Dpre"        "Dpre Epre"    
+ [281] "Epre Fpre"     "Fpre A_19"     "A_19 C"        "C H_1"         "H_1 I_1"       "I_1 return"    "return Pr_4"   "Pr_4 Rs_7"     "Rs_7 MOVE"     "MOVE a_1"     
+ [291] "a_1 B_2"       "B_2 C"         "C depart"      "depart F1_1"   "F1_1 F2_6"     "F2_6 M"        "M N"           "N K_4"         "K_4 return"    "c"            
+ [301] "Dpre"          "Epre"          "Fpre"          "A_19"          "C"             "H_1"           "I_1"           "return"        "Pr_4"          "Rs_7"         
+ [311] "MOVE"          "a_1"           "B_2"           "C"             "depart"        "F1_1"          "F2_6"          "M"             "N"             "K_4"          
+ [321] "return"        "c _3"          "_3 B_1"        "B_1 C"         "C depart"      "depart D1_2"   "D1_2 E1_2"     "E1_2 F1_2"     "F1_2 G_2"      "G_2 H_1"      
+ [331] "H_1 I_1"       "I_1 K_4"       "K_4 return"    "return Pr_4"   "Pr_4 Rs_7"     "Rs_7 MOVE"     "MOVE A_2"      "A_2 C"         "C depart"      "depart D1_1"  
+ [341] "D1_1 E1_2"     "E1_2 F1_3"     "F1_3 G_1"      "G_1 K_4"       "K_4 return"    "return W"      "W MOVE"        "MOVE a_1"      "a_1 B"         "B C"          
+ [351] "C depart"      "depart M"      "M N"           "N K_1"         "K_1 return"    "c"             "_3"            "B_1"           "C"             "depart"       
+ [361] "D1_2"          "E1_2"          "F1_2"          "G_2"           "H_1"           "I_1"           "K_4"           "return"        "Pr_4"          "Rs_7"         
+ [371] "MOVE"          "A_2"           "C"             "depart"        "D1_1"          "E1_2"          "F1_3"          "G_1"           "K_4"           "return"       
+ [381] "W"             "MOVE"          "a_1"           "B"             "C"             "depart"        "M"             "N"             "K_1"           "return"       
+ [391] "c A_9"         "A_9 B_5"       "B_5 D1_1"      "D1_1 E1_1"     "E1_1 F1_1"     "F1_1 return"   "return MOVE"   "MOVE a_6"      "a_6 B_5"       "B_5 C"        
+ [401] "C depart"      "depart D1_1"   "D1_1 E1_1"     "E1_1 F1"       "F1 return"     "c"             "A_9"           "B_5"           "D1_1"          "E1_1"         
+ [411] "F1_1"          "return"        "MOVE"          "a_6"           "B_5"           "C"             "depart"        "D1_1"          "E1_1"          "F1"           
+ [421] "return"        "c A_1"         "A_1 B_3"       "B_3 C"         "C depart"      "depart D1_2"   "D1_2 E1_2"     "E1_2 F1_2"     "F1_2 G_2"      "G_2 D2_1"     
+ [431] "D2_1 E2_1"     "E2_1 F2_2"     "F2_2 G_5"      "G_5 o"         "o L"           "L HMPr"        "HMPr J"        "J INRs"        "INRs K"        "K return"     
+ [441] "return PrH"    "PrH RsI"       "RsI L"         "L Q"           "Q Ex"          "Ex T"          "T U"           "U W"           "W X"           "X MOVE"       
+ [451] "MOVE a_1"      "a_1 B_4"       "B_4 C"         "C depart"      "depart D1_4"   "D1_4 E1_4"     "E1_4 F1_6"     "F1_6 G_5"      "G_5 o"         "o L"          
+ [461] "L HMPr"        "HMPr J"        "J INRs"        "INRs K"        "K return"      "return PrH"    "PrH RsI"       "RsI L"         "L Q"           "Q Ex"         
+ [471] "Ex T"          "T U"           "U W"           "W X"           "X MOVE"        "MOVE A_7"      "A_7 C"         "C depart"      "depart G_1"    "G_1 o"        
+ [481] "o L"           "L HMPr"        "HMPr J"        "J INRs"        "INRs K"        "K return"      "return PrH"    "PrH RsI"       "RsI L"         "L Q"          
+ [491] "Q Ex"          "Ex T"          "T U"           "U W"           "W X"           "c"             "A_1"           "B_3"           "C"             "depart"       
+ [501] "D1_2"          "E1_2"          "F1_2"          "G_2"           "D2_1"          "E2_1"          "F2_2"          "G_5"           "o"             "L"            
+ [511] "HMPr"          "J"             "INRs"          "K"             "return"        "PrH"           "RsI"           "L"             "Q"             "Ex"           
+ [521] "T"             "U"             "W"             "X"             "MOVE"          "a_1"           "B_4"           "C"             "depart"        "D1_4"         
+ [531] "E1_4"          "F1_6"          "G_5"           "o"             "L"             "HMPr"          "J"             "INRs"          "K"             "return"       
+ [541] "PrH"           "RsI"           "L"             "Q"             "Ex"            "T"             "U"             "W"             "X"             "MOVE"         
+ [551] "A_7"           "C"             "depart"        "G_1"           "o"             "L"             "HMPr"          "J"             "INRs"          "K"            
+ [561] "return"        "PrH"           "RsI"           "L"             "Q"             "Ex"            "T"             "U"             "W"             "X"            
+ [571] "c A_5"         "A_5 C"         "C depart"      "depart G_3"    "G_3 K_7"       "K_7 return"    "return W"      "W return"      "return MOVE"   "MOVE a_1"     
+ [581] "a_1 C"         "C depart"      "depart F1_9"   "F1_9 G_3"      "G_3 I_5"       "I_5 W"         "W return"      "c"             "A_5"           "C"            
+ [591] "depart"        "G_3"           "K_7"           "return"        "W"             "return"        "MOVE"          "a_1"           "C"             "depart"       
+ [601] "F1_9"          "G_3"           "I_5"           "W"             "return"        "A_1 depart"    "depart D1_8"   "D1_8 E1_8"     "E1_8 return"   "return Pr_7"  
+ [611] "Pr_7 Rs_10"    "Rs_10 L"       "L Q"           "Q Ex"          "Ex T"          "T U"           "U W"           "W X"           "X Pr_7"        "Pr_7 Rs_1"    
+ [621] "A_1"           "depart"        "D1_8"          "E1_8"          "return"        "Pr_7"          "Rs_10"         "L"             "Q"             "Ex"           
+ [631] "T"             "U"             "W"             "X"             "Pr_7"          "Rs_1"          "c A_9"         "A_9 B_5"       "B_5 depart"    "depart D1_7"  
+ [641] "D1_7 E1_7"     "E1_7 f1_9"     "f1_9 D2_1"     "D2_1 E2_7"     "E2_7 f2_1"     "f2_1 return"   "return MOVE"   "MOVE a_6"      "a_6 B_5"       "B_5 C"        
+ [651] "C depart"      "depart D1_1"   "D1_1 E1_1"     "E1_1 F1"       "F1 D2_1"       "D2_1 E2_1"     "E2_1 F2"       "F2 return"     "c"             "A_9"          
+ [661] "B_5"           "depart"        "D1_7"          "E1_7"          "f1_9"          "D2_1"          "E2_7"          "f2_1"          "return"        "MOVE"         
+ [671] "a_6"           "B_5"           "C"             "depart"        "D1_1"          "E1_1"          "F1"            "D2_1"          "E2_1"          "F2"           
+ [681] "return"        "c A_1"         "A_1 C"         "C depart"      "depart K_4"    "K_4 MOVE"      "MOVE A_1"      "A_1 C"         "C depart"      "depart F1_9"  
+ [691] "F1_9 K_4"      "K_4 return"    "return Pr_1"   "Pr_1 Rs_1"     "Rs_1 MOVE"     "MOVE A_14"     "A_14 B_4"      "B_4 C"         "C depart"      "depart K_9"   
+ [701] "K_9 return"    "return Pr_1"   "Pr_1 Rs_1"     "Rs_1 MOVE"     "MOVE a_2"      "a_2 depart"    "depart F1_1"   "F1_1 D2"       "D2 E2"         "E2 F2_9"      
+ [711] "F2_9 o"        "o L"           "L Pr_1"        "Pr_1 Rs_2"     "c"             "A_1"           "C"             "depart"        "K_4"           "MOVE"         
+ [721] "A_1"           "C"             "depart"        "F1_9"          "K_4"           "return"        "Pr_1"          "Rs_1"          "MOVE"          "A_14"         
+ [731] "B_4"           "C"             "depart"        "K_9"           "return"        "Pr_1"          "Rs_1"          "MOVE"          "a_2"           "depart"       
+ [741] "F1_1"          "D2"            "E2"            "F2_9"          "o"             "L"             "Pr_1"          "Rs_2"          "A_6 o"         "o F1_3"       
+ [751] "F1_3 o"        "o H_1"         "H_1 J_1"       "J_1 I_1"       "I_1 K_3"       "K_3 Pr_6"      "Pr_6 Rs_6"     "Rs_6 Q"        "Q Ex"          "Ex T_2"       
+ [761] "T_2 W"         "A_6"           "o"             "F1_3"          "o"             "H_1"           "J_1"           "I_1"           "K_3"           "Pr_6"         
+ [771] "Rs_6"          "Q"             "Ex"            "T_2"           "W"             "A_4 C"         "C F1_3"        "F1_3 H_1"      "H_1 I_1"       "I_1 K_4"      
+ [781] "K_4 return"    "return Pr_4"   "Pr_4 Rs_7"     "A_4"           "C"             "F1_3"          "H_1"           "I_1"           "K_4"           "return"       
+ [791] "Pr_4"          "Rs_7"          "c Dpre_9"      "Dpre_9 Epre_9" "Epre_9 Fpre_9" "Fpre_9 A_1"    "A_1 B_1"       "B_1 C"         "C depart"      "depart H_1"   
+ [801] "H_1 I_1"       "I_1 K_4"       "K_4 W"         "W X"           "X MOVE"        "MOVE A_1"      "A_1 C"         "C depart"      "depart D1_9"   "D1_9 E1_9"    
+ [811] "E1_9 F1_1"     "F1_1 G_1"      "G_1 o"         "o L"           "L M"           "M N"           "N Q"           "Q T_1"         "T_1 U"         "U W"          
+ [821] "W X"           "c"             "Dpre_9"        "Epre_9"        "Fpre_9"        "A_1"           "B_1"           "C"             "depart"        "H_1"          
+ [831] "I_1"           "K_4"           "W"             "X"             "MOVE"          "A_1"           "C"             "depart"        "D1_9"          "E1_9"         
+ [841] "F1_1"          "G_1"           "o"             "L"             "M"             "N"             "Q"             "T_1"           "U"             "W"            
+ [851] "X"             "a_5 B_4"       "B_4 C"         "C depart"      "depart H_2"    "H_2 I_2"       "I_2 K_1"       "a_5"           "B_4"           "C"            
+ [861] "depart"        "H_2"           "I_2"           "K_1"           "c A_1"         "A_1 B_4"       "B_4 C"         "C depart"      "depart H_1"    "H_1 I_1"      
+ [871] "I_1 K_4"       "K_4 return"    "return W"      "c"             "A_1"           "B_4"           "C"             "depart"        "H_1"           "I_1"          
+ [881] "K_4"           "return"        "W"             "c A_3"         "A_3 C"         "C depart"      "depart F1_1"   "F1_1 H_1"      "H_1 I_1"       "I_1 K_7"      
+ [891] "K_7 return"    "return MOVE"   "MOVE A_9"      "A_9 depart"    "depart F1_6"   "F1_6 H_1"      "H_1 I_1"       "I_1 K_1"       "K_1 return"    "return W"     
+ [901] "c"             "A_3"           "C"             "depart"        "F1_1"          "H_1"           "I_1"           "K_7"           "return"        "MOVE"         
+ [911] "A_9"           "depart"        "F1_6"          "H_1"           "I_1"           "K_1"           "return"        "W"             "A_xvi depart"  "depart d1_7"  
+ [921] "d1_7 E1_7"     "E1_7 F1_2"     "F1_2 D2_8"     "D2_8 E2_8"     "E2_8 F2_8"     "F2_8 return"   "return Pr_1"   "Pr_1 Rs_4"     "Rs_4 Q"        "Q W"          
+ [931] "A_xvi"         "depart"        "d1_7"          "E1_7"          "F1_2"          "D2_8"          "E2_8"          "F2_8"          "return"        "Pr_1"         
+ [941] "Rs_4"          "Q"             "W"             "c A_19"        "A_19 B_2"      "B_2 C"         "C depart"      "depart H_1"    "H_1 I_1"       "I_1 K_4"      
+ [951] "K_4 return"    "return MOVE"   "MOVE a_1"      "a_1 C"         "C depart"      "depart F1_1"   "F1_1 G_3"      "G_3 H_1"       "H_1 I_1"       "I_1 K_9"      
+ [961] "K_9 MOVE"      "MOVE %"        "% KF9"         "KF9 a_1"       "a_1 C"         "C depart"      "depart D1_9"   "D1_9 E1_9"     "E1_9 F1_1"     "F1_1 G_6"     
+ [971] "G_6 D2_9"      "D2_9 E2_9"     "E2_9 F2_4"     "F2_4 G_5"      "G_5 J"         "J I_5"         "I_5 K_4"       "K_4 return"    "return MOVE"   "MOVE a_1"     
+ [981] "a_1 C"         "C depart"      "depart G_2"    "G_2 H_1"       "H_1 I_1"       "c"             "A_19"          "B_2"           "C"             "depart"       
+ [991] "H_1"           "I_1"           "K_4"           "return"        "MOVE"          "a_1"           "C"             "depart"        "F1_1"          "G_3"          
+[1001] "H_1"           "I_1"           "K_9"           "MOVE"          "%"             "KF9"           "a_1"           "C"             "depart"        "D1_9"         
+[1011] "E1_9"          "F1_1"          "G_6"           "D2_9"          "E2_9"          "F2_4"          "G_5"           "J"             "I_5"           "K_4"          
+[1021] "return"        "MOVE"          "a_1"           "C"             "depart"        "G_2"           "H_1"           "I_1"           "c Dpre_4"      "Dpre_4 Epre_4"
+[1031] "Epre_4 Fpre_9" "Fpre_9 A_9"    "A_9 depart"    "depart o"      "o MOVE"        "MOVE Fpre_1"   "Fpre_1 A_16"   "A_16 C"        "C depart"      "depart H_1"   
+[1041] "H_1 J_1"       "J_1 I_1"       "I_1 K_4"       "K_4 return"    "return Pr"     "Pr Rs"         "Rs L"          "L Q"           "Q Ex"          "Ex U"         
+[1051] "U W"           "c"             "Dpre_4"        "Epre_4"        "Fpre_9"        "A_9"           "depart"        "o"             "MOVE"          "Fpre_1"       
+[1061] "A_16"          "C"             "depart"        "H_1"           "J_1"           "I_1"           "K_4"           "return"        "Pr"            "Rs"           
+[1071] "L"             "Q"             "Ex"            "U"             "W"             "c A_6"         "A_6 depart"    "depart E1_7"   "E1_7 F1_2"     "F1_2 Rs_4"    
+[1081] "Rs_4 K_5"      "K_5 MOVE"      "MOVE A_18"     "A_18 B"        "B C"           "C depart"      "depart D1_1"   "D1_1 E1_1"     "E1_1 F1_1"     "F1_1 I_6"     
+[1091] "c"             "A_6"           "depart"        "E1_7"          "F1_2"          "Rs_4"          "K_5"           "MOVE"          "A_18"          "B"            
+[1101] "C"             "depart"        "D1_1"          "E1_1"          "F1_1"          "I_6"           "c A_xvii"      "A_xvii B_3"    "B_3 depart"    "depart d1_6"  
+[1111] "d1_6 E1_7"     "E1_7 F1"       "F1 MOVE"       "MOVE a_6"      "a_6 B_3"       "B_3 depart"    "depart d1_7"   "d1_7 E1_7"     "E1_7 F1_1"     "F1_1 MOVE"    
+[1121] "MOVE A_xvii"   "A_xvii depart" "depart Pr_1"   "Pr_1 Rs_2"     "Rs_2 H_4"      "H_4 I_4"       "I_4 W_w"       "c"             "A_xvii"        "B_3"          
+[1131] "depart"        "d1_6"          "E1_7"          "F1"            "MOVE"          "a_6"           "B_3"           "depart"        "d1_7"          "E1_7"         
+[1141] "F1_1"          "MOVE"          "A_xvii"        "depart"        "Pr_1"          "Rs_2"          "H_4"           "I_4"           "W_w"           "c Dpre_6"     
+[1151] "Dpre_6 Epre_6" "Epre_6 Fpre_1" "Fpre_1 A_11"   "A_11 H_1"      "H_1 I_1"       "I_1 K_8"       "K_8 W"         "W X"           "X MOVE"        "MOVE A_1"     
+[1161] "A_1 B_3"       "B_3 C"         "C depart"      "depart H_1"    "H_1 I_1"       "I_1 K_4"       "K_4 W"         "W X"           "c"             "Dpre_6"       
+[1171] "Epre_6"        "Fpre_1"        "A_11"          "H_1"           "I_1"           "K_8"           "W"             "X"             "MOVE"          "A_1"          
+[1181] "B_3"           "C"             "depart"        "H_1"           "I_1"           "K_4"           "W"             "X"             "c Dpre"        "Dpre Epre"    
+[1191] "Epre a_6"      "a_6 B_2"       "B_2 C"         "C depart"      "depart K_7"    "K_7 return"    "return MOVE"   "MOVE a_5"      "a_5 B_2"       "B_2 C"        
+[1201] "C depart"      "depart H_2"    "H_2 I_2"       "I_2 K_1"       "K_1 return"    "return Pr"     "Pr Rs"         "Rs U"          "U w_0"         "c"            
+[1211] "Dpre"          "Epre"          "a_6"           "B_2"           "C"             "depart"        "K_7"           "return"        "MOVE"          "a_5"          
+[1221] "B_2"           "C"             "depart"        "H_2"           "I_2"           "K_1"           "return"        "Pr"            "Rs"            "U"            
+[1231] "w_0"           "a_1 B_4"       "B_4 C"         "C depart"      "depart F1_2"   "F1_2 G_1"      "G_1 M"         "M N"           "N T_3"         "T_3 W"        
+[1241] "a_1"           "B_4"           "C"             "depart"        "F1_2"          "G_1"           "M"             "N"             "T_3"           "W"            
+[1251] "Dpre Epre_7"   "Epre_7 Fpre_9" "Fpre_9 A_18"   "A_18 C"        "C depart"      "depart F1_1"   "F1_1 H_3"      "H_3 I_3"       "I_3 K_4"       "K_4 W"        
+[1261] "Dpre"          "Epre_7"        "Fpre_9"        "A_18"          "C"             "depart"        "F1_1"          "H_3"           "I_3"           "K_4"          
+[1271] "W"             "c A_9"         "A_9 B"         "B C"           "C depart"      "depart F1_6"   "F1_6 D2_9"     "D2_9 E2_9"     "E2_9 F2_9"     "F2_9 G_6"     
+[1281] "G_6 I_5"       "I_5 K_4"       "K_4 return"    "return MOVE"   "MOVE A_1"      "A_1 C"         "C depart"      "depart F1_6"   "F1_6 G_5"      "G_5 K_4"      
+[1291] "K_4 U"         "U W"           "c"             "A_9"           "B"             "C"             "depart"        "F1_6"          "D2_9"          "E2_9"         
+[1301] "F2_9"          "G_6"           "I_5"           "K_4"           "return"        "MOVE"          "A_1"           "C"             "depart"        "F1_6"         
+[1311] "G_5"           "K_4"           "U"             "W"             "A_1 B"         "B C"           "C depart"      "depart D1_1"   "D1_1 E1_1"     "E1_1 F1"      
+[1321] "F1 d2_7"       "d2_7 E2_7"     "E2_7 F2_9"     "F2_9 G_4"      "G_4 K_1"       "K_1 return"    "A_1"           "B"             "C"             "depart"       
+[1331] "D1_1"          "E1_1"          "F1"            "d2_7"          "E2_7"          "F2_9"          "G_4"           "K_1"           "return"        "c A_5"        
+[1341] "A_5 B_1"       "B_1 C"         "C depart"      "depart K_7"    "K_7 return"    "return MOVE"   "MOVE a_6"      "a_6 C"         "C depart"      "depart D1_1"  
+[1351] "D1_1 E1_1"     "E1_1 F1_5"     "F1_5 G_5"      "G_5 F2_1"      "F2_1 G_2"      "G_2 I_5"       "I_5 return"    "return MOVE"   "MOVE A_1"      "A_1 C"        
+[1361] "C depart"      "depart d1_7"   "d1_7 E1_7"     "E1_7 F1_9"     "F1_9 G_1"      "G_1 o"         "o L"           "L M"           "M N"           "N K"          
+[1371] "K Q"           "Q Ex"          "Ex U"          "U W"           "c"             "A_5"           "B_1"           "C"             "depart"        "K_7"          
+[1381] "return"        "MOVE"          "a_6"           "C"             "depart"        "D1_1"          "E1_1"          "F1_5"          "G_5"           "F2_1"         
+[1391] "G_2"           "I_5"           "return"        "MOVE"          "A_1"           "C"             "depart"        "d1_7"          "E1_7"          "F1_9"         
+[1401] "G_1"           "o"             "L"             "M"             "N"             "K"             "Q"             "Ex"            "U"             "W"            
+[1411] "c A_3"         "A_3 B_2"       "B_2 C"         "C depart"      "depart K_7"    "K_7 return"    "return MOVE"   "MOVE Dpre"     "Dpre Epre"     "Epre Fpre"    
+[1421] "Fpre A_19"     "A_19 B_3"      "B_3 C"         "C F1_1"        "F1_1 H_1"      "H_1 J_1"       "J_1 I_1"       "I_1 K_3"       "K_3 return"    "return Q"     
+[1431] "Q T_2"         "T_2 W"         "W X"           "c"             "A_3"           "B_2"           "C"             "depart"        "K_7"           "return"       
+[1441] "MOVE"          "Dpre"          "Epre"          "Fpre"          "A_19"          "B_3"           "C"             "F1_1"          "H_1"           "J_1"          
+[1451] "I_1"           "K_3"           "return"        "Q"             "T_2"           "W"             "X"             "c A_1"         "A_1 C"         "C depart"     
+[1461] "depart D1_1"   "D1_1 E1_1"     "E1_1 F1"       "F1 MOVE"       "MOVE B_4"      "B_4 C"         "C depart"      "depart D1_1"   "D1_1 E1_1"     "E1_1 F1"      
+[1471] "F1 H_1"        "H_1 I_1"       "I_1 K_4"       "K_4 return"    "c"             "A_1"           "C"             "depart"        "D1_1"          "E1_1"         
+[1481] "F1"            "MOVE"          "B_4"           "C"             "depart"        "D1_1"          "E1_1"          "F1"            "H_1"           "I_1"          
+[1491] "K_4"           "return"        "a_1 B_2"       "B_2 C"         "C depart"      "depart F1_3"   "F1_3 G_1"      "G_1 K_2"       "K_2 return"    "a_1"          
+[1501] "B_2"           "C"             "depart"        "F1_3"          "G_1"           "K_2"           "return"        "A_17 B_4"      "B_4 C"         "C depart"     
+[1511] "depart H_2"    "H_2 I_2"       "I_2 K_4"       "K_4 w_0"       "A_17"          "B_4"           "C"             "depart"        "H_2"           "I_2"          
+[1521] "K_4"           "w_0"           "A_18 C"        "C depart"      "depart F1_1"   "F1_1 H_3"      "H_3 I_3"       "I_3 U"         "U w"           "w trans"      
+[1531] "trans X"       "A_18"          "C"             "depart"        "F1_1"          "H_3"           "I_3"           "U"             "w"             "trans"        
+[1541] "X"             "c a_6"         "a_6 B_1"       "B_1 C"         "C D1_2"        "D1_2 E1_2"     "E1_2 KF2"      "KF2 MOVE"      "MOVE A_1"      "A_1 B_2"      
+[1551] "B_2 C"         "C K_5"         "K_5 MOVE"      "MOVE A_1"      "A_1 C"         "C H_1"         "H_1 I_1"       "I_1 K_1"       "K_1 return"    "return Pr_4"  
+[1561] "Pr_4 Rs_7"     "c"             "a_6"           "B_1"           "C"             "D1_2"          "E1_2"          "KF2"           "MOVE"          "A_1"          
+[1571] "B_2"           "C"             "K_5"           "MOVE"          "A_1"           "C"             "H_1"           "I_1"           "K_1"           "return"       
+[1581] "Pr_4"          "Rs_7"          "c a_1"         "a_1 B"         "B C"           "C depart"      "depart D1_1"   "D1_1 E1_1"     "E1_1 F1_5"     "F1_5 G_5"     
+[1591] "G_5 w_1"       "w_1 MOVE"      "MOVE A_1"      "A_1 C"         "C depart"      "depart F1_1"   "F1_1 G_1"      "G_1 H_1"       "H_1 K_1"       "K_1 W"        
+[1601] "c"             "a_1"           "B"             "C"             "depart"        "D1_1"          "E1_1"          "F1_5"          "G_5"           "w_1"          
+[1611] "MOVE"          "A_1"           "C"             "depart"        "F1_1"          "G_1"           "H_1"           "K_1"           "W"             "c a_2"        
+[1621] "a_2 B_3"       "B_3 C"         "C depart"      "depart D1_2"   "D1_2 E1_2"     "E1_2 F1_1"     "F1_1 K"        "K return"      "return MOVE"   "MOVE a_2"     
+[1631] "a_2 B_3"       "B_3 C"         "C depart"      "depart D1_2"   "D1_2 E1_2"     "E1_2 F1_1"     "F1_1 K"        "K return"      "return MOVE"   "MOVE A_14"    
+[1641] "A_14 B_4"      "B_4 C"         "C depart"      "depart G_2"    "G_2 I_5"       "I_5 K_9"       "K_9 U"         "U MOVE"        "MOVE A_18"     "A_18 B_4"     
+[1651] "B_4 C"         "C depart"      "depart H_1"    "H_1 J_1"       "J_1 I_1"       "I_1 K_1"       "K_1 L"         "L Q"           "Q Ex"          "Ex U"         
+[1661] "U W"           "W X"           "c"             "a_2"           "B_3"           "C"             "depart"        "D1_2"          "E1_2"          "F1_1"         
+[1671] "K"             "return"        "MOVE"          "a_2"           "B_3"           "C"             "depart"        "D1_2"          "E1_2"          "F1_1"         
+[1681] "K"             "return"        "MOVE"          "A_14"          "B_4"           "C"             "depart"        "G_2"           "I_5"           "K_9"          
+[1691] "U"             "MOVE"          "A_18"          "B_4"           "C"             "depart"        "H_1"           "J_1"           "I_1"           "K_1"          
+[1701] "L"             "Q"             "Ex"            "U"             "W"             "X"             "c Fpre_1"      "Fpre_1 a_6"    "a_6 B_2"       "B_2 C"        
+[1711] "C depart"      "depart D1_1"   "D1_1 E1_1"     "E1_1 F1_1"     "F1_1 return"   "return U"      "U MOVE"        "MOVE a_1"      "a_1 C"         "C depart"     
+[1721] "depart D1"     "D1 E1"         "E1 F1_3"       "F1_3 D2"       "D2 E2"         "E2 F2_4"       "F2_4 M"        "M N"           "N W"           "c"            
+[1731] "Fpre_1"        "a_6"           "B_2"           "C"             "depart"        "D1_1"          "E1_1"          "F1_1"          "return"        "U"            
+[1741] "MOVE"          "a_1"           "C"             "depart"        "D1"            "E1"            "F1_3"          "D2"            "E2"            "F2_4"         
+[1751] "M"             "N"             "W"            
+> ###############################################
+> # not sure if weighting function is appropriate yet
+> ###############################################
+> # tf/idf with ngrams
+> #dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightTfIdf))
+> # tf/idf, no ngrams
+> dtm <- DocumentTermMatrix(corpus, control = list( control = list(ngrams, weighting = function (x)  weightTfIdf(x, normalize = TRUE))))
+> dtm$dimnames$Terms
+  [1] "a_1"    "a_10"   "a_11"   "a_14"   "a_16"   "a_17"   "a_18"   "a_19"   "a_2"    "a_3"    "a_4"    "a_5"    "a_6"    "a_7"    "a_8"    "a_9"    "a_ii"   "a_xvi" 
+ [19] "a_xvii" "b_1"    "b_2"    "b_3"    "b_4"    "b_5"    "b_7"    "d1_1"   "d1_2"   "d1_3"   "d1_4"   "d1_6"   "d1_7"   "d1_8"   "d1_9"   "d2_1"   "d2_7"   "d2_8"  
+ [37] "d2_9"   "depart" "dpre"   "dpre_4" "dpre_6" "dpre_9" "e1_1"   "e1_2"   "e1_3"   "e1_4"   "e1_7"   "e1_8"   "e1_9"   "e2_1"   "e2_7"   "e2_8"   "e2_9"   "epre"  
+ [55] "epre_4" "epre_6" "epre_7" "epre_9" "f1_1"   "f1_2"   "f1_3"   "f1_5"   "f1_6"   "f1_8"   "f1_9"   "f1_vi"  "f2_1"   "f2_2"   "f2_4"   "f2_6"   "f2_7"   "f2_8"  
+ [73] "f2_9"   "fpre"   "fpre_1" "fpre_9" "g_1"    "g_2"    "g_3"    "g_4"    "g_5"    "g_6"    "h_1"    "h_2"    "h_3"    "h_4"    "hmpr"   "i_1"    "i_2"    "i_3"   
+ [91] "i_4"    "i_5"    "i_6"    "inrs"   "j_1"    "k_1"    "k_2"    "k_3"    "k_4"    "k_5"    "k_7"    "k_8"    "k_9"    "kf2"    "kf9"    "move"   "pr_1"   "pr_4"  
+[109] "pr_6"   "pr_7"   "prh"    "return" "rs_1"   "rs_10"  "rs_2"   "rs_4"   "rs_6"   "rs_7"   "rsi"    "t_1"    "t_2"    "t_3"    "t_4"    "trans"  "w_0"    "w_1"   
+[127] "w_w"   
+> # tf weighting with ngrams
+> # dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightTf))
+> # tf weighting no ngrams
+> dtm$dimnames
+$Docs
+ [1] "According_to_Pike_N167.txt"                                 "Baba_Jaga_and_the_Brave_Youth_N105.txt"                    
+ [3] "Baba_Jaga_N106.txt"                                         "Bukhtan_Bukhtanovich_N163.txt"                             
+ [5] "Burenushka_the_Little_Red_Cow_N101.txt"                     "Dawn_Evening_Midnight_N140.txt"                            
+ [7] "Emelya_the_Simpleton_N166.txt"                              "Frolka_Stay_at_Home_N131.txt"                              
+ [9] "Havrushka_N100.txt"                                         "Ivanko_the_Bears_Son_N152.txt"                             
+[11] "Ivan_the_Cows_Son_N137.txt"                                 "Ivan_the_Peasants_Son_and_the_Thumbsized_Man_N138.txt"     
+[13] "Jack_Frost_N95.txt"                                         "Koshchey_the_Deathless_N156.txt"                           
+[15] "Kozma_Get_Rich_Quick_N164.txt"                              "Little_Ivan_and_the_Witch_N108.txt"                        
+[17] "Mares_Head_N98.txt"                                         "Maria_Morevna_N159.txt"                                    
+[19] "N127.txt"                                                   "N135.txt"                                                  
+[21] "N139.txt"                                                   "N151.txt"                                                  
+[23] "Nikita_the_Tanner_N148.txt"                                 "Nodey_the_Priests_Grandson_N143.txt"                       
+[25] "Prince_Danila_the_Talker_N114.txt"                          "Prince_Ivan_and_Byeli_Polyanin_N161.txt"                   
+[27] "Prince_Ivan_and_Princess_Marta_N125.txt"                    "Right_and_Wrong_N115.txt"                                  
+[29] "Sun_Sister_N93.txt"                                         "The_Crystal_Mountain_N162.txt"                             
+[31] "The_Farmhand_149.txt"                                       "The_Flying_Ship_N144.txt"                                  
+[33] "The_Fugitive_Soldier_and_the_Devil_N154.txt"                "The_Little_Bear_the_Adoptees_and_the_Oaken_Knight_N141.txt"
+[35] "The_Magic_Swan_Geese_N113.txt"                              "The_Mink_Beast_N132.txt"                                   
+[37] "The_Old_Man_N126.txt"                                       "The_Rolling_Peas_N133.txt"                                 
+[39] "The_Seven_Semyons_N145.txt"                                 "The_Snake_and_The_Gypsy_N149.txt"                          
+[41] "The_Soldier_Saves_the_Princess_N153.txt"                    "The_Storm_Knight_and_the_Measly_Son_N136.txt"              
+[43] "The_Three_Kingdoms_Copper_Silver_and_Gold_N128.txt"         "Two_Ivans_Soldiers_Sons_N155.txt"                          
+[45] "Vasilisa_the_Beautiful_N104.txt"                           
+
+$Terms
+  [1] "a_1"    "a_10"   "a_11"   "a_14"   "a_16"   "a_17"   "a_18"   "a_19"   "a_2"    "a_3"    "a_4"    "a_5"    "a_6"    "a_7"    "a_8"    "a_9"    "a_ii"   "a_xvi" 
+ [19] "a_xvii" "b_1"    "b_2"    "b_3"    "b_4"    "b_5"    "b_7"    "d1_1"   "d1_2"   "d1_3"   "d1_4"   "d1_6"   "d1_7"   "d1_8"   "d1_9"   "d2_1"   "d2_7"   "d2_8"  
+ [37] "d2_9"   "depart" "dpre"   "dpre_4" "dpre_6" "dpre_9" "e1_1"   "e1_2"   "e1_3"   "e1_4"   "e1_7"   "e1_8"   "e1_9"   "e2_1"   "e2_7"   "e2_8"   "e2_9"   "epre"  
+ [55] "epre_4" "epre_6" "epre_7" "epre_9" "f1_1"   "f1_2"   "f1_3"   "f1_5"   "f1_6"   "f1_8"   "f1_9"   "f1_vi"  "f2_1"   "f2_2"   "f2_4"   "f2_6"   "f2_7"   "f2_8"  
+ [73] "f2_9"   "fpre"   "fpre_1" "fpre_9" "g_1"    "g_2"    "g_3"    "g_4"    "g_5"    "g_6"    "h_1"    "h_2"    "h_3"    "h_4"    "hmpr"   "i_1"    "i_2"    "i_3"   
+ [91] "i_4"    "i_5"    "i_6"    "inrs"   "j_1"    "k_1"    "k_2"    "k_3"    "k_4"    "k_5"    "k_7"    "k_8"    "k_9"    "kf2"    "kf9"    "move"   "pr_1"   "pr_4"  
+[109] "pr_6"   "pr_7"   "prh"    "return" "rs_1"   "rs_10"  "rs_2"   "rs_4"   "rs_6"   "rs_7"   "rsi"    "t_1"    "t_2"    "t_3"    "t_4"    "trans"  "w_0"    "w_1"   
+[127] "w_w"   
+
+> print(dtm)
+A document-term matrix (45 documents, 127 terms)
+
+Non-/sparse entries: 507/5208
+Sparsity           : 91%
+Maximal term length: 6 
+Weighting          : term frequency (tf)
+> ###############################################
+> # use distance method: "centroid", "ward", "complete", "mcquitty", etc.
+> ###############################################
+> dtm_complete <- hclust(dist(dtm), method="ward")
+> dtm_distro <- hclust(dist(dtm), method="centroid")
+> ###############################################
+> # plot hierarchical dendrogram of cluster of tale/function matrix
+> ###############################################
+> plot(hclust(dist(dtm), method="complete"), xlab="text from corpus", "ylab"="distance", main="Cluster Dendrogram \n of Various Russian Magic Tales")
+> op = par(bg="#DDE3CA")
+> plot(dtm_complete, col="#487AA1", col.main="#45ADA8", col.lab="#7C8071",
++ col.axis="#F38630", lwd=1, lty=1, sub='', hang=-1, axes=FALSE,
++ main = "Cluster Dendrogram Representing \n Magic Tale Similarity",
++ xlab="Magic Tale Name", ylab = "Distance given absence/presence of Proppian Functions/Narremes")
