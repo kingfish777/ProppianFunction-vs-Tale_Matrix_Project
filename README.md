@@ -1,9 +1,9 @@
 ##Adventures in Proppian Function-Magic Tale Matrices
 ___________________________________________________________________________________
 #R libraries used: 
-** ape
-** Rgraphviz
-** tm
+* ape
+* Rgraphviz
+* tm
 ___________________________________________________________________________________
 
 #Russian Magic Tales from Appendix III of Propp's Morphology of the Fairy Tale
