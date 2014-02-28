@@ -1,6 +1,6 @@
 ###############################################
 # Author: Scott Alexander Malec
-# Title: _AfanClust2.R
+# Title: Transposition_AfanClust2.R
 # Purpose: adventures in function/tale clustering
 # with coded data from Appendix III
 # of Vladimir Propp's Morphology of the Fairy Tale (1928)
@@ -83,8 +83,12 @@ dtm$dimnames$Terms
 dtm <- DocumentTermMatrix(corpus)
 dtm$dimnames$Terms
 dtm <- DocumentTermMatrix(corpus, control = list(ngrams))
+####################
+# obvious bug/kink in tm/weka
+# switching over to RTextTools
+####################
 library(RTextTools)
-dtm <- t(RTextTools::create_matrix(corpus, ngramLength=2))
+dtm <- t(RTextTools::create_matrix(corpus, ngramLength=3))
 dtm$dimnames$Terms
 ###############################################
 # use these lines to eliminate tales with no or NAN functions
