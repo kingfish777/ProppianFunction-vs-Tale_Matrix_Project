@@ -145,6 +145,8 @@ t.locations
 
 tm::Zipf_plot(dtm)
 tm::Heaps_plot(dtm)
+# other methods for proxy::dist include:
+#   "euclidian", "canberra", "manhattan", "maximum", "binary", "minkokwski"
 tm::dissimilarity(x=corpus$Baba_Jaga_N106.txt, y=corpus$Baba_Jaga_and_the_Brave_Youth_N105.txt, method="canberra")
 tm::dissimilarity(x=corpus$Jack_Frost_N95.txt, y=corpus$Jack_Frost_N95.txt, method="canberra")
 tm::dissimilarity(x=corpus$Jack_Frost_N95.txt, y=corpus$Mares_Head_N98.txt, method="canberra")
