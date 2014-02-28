@@ -1,20 +1,22 @@
 ###############################################
 #
 # Author: Scott Malec
-#  Title: _AfanClust2.R
+# Title: _AfanClust2.R
 # Purpose: adventures in function/tale clustering
-#          with coded data from Appendix III
-#          of Vladimir Propp's Morphology of the Fairy Tale (1928)
+# with coded data from Appendix III
+# of Vladimir Propp's Morphology of the Fairy Tale (1928)
 #
+# TO DO: create function to subdivide each function file at new line 
+#  (which represents a move)
 ###############################################
 
 ###############################################
 # load libraries
 ###############################################
-library(tm)  # R text mining module
+library(tm) # R text mining module
 library(RWeka) # Weka data mining
 library(ape) # http://bioinformatics.oxfordjournals.org/content/20/2/289.abstract
-             # Analysis for Phylogenetic Evolution in R language
+# Analysis for Phylogenetic Evolution in R language
 library(Rgraphviz) #bioConductor's interface to GraphViz, powerful data visualization tool
 
 
@@ -30,14 +32,14 @@ corpus <- Corpus(DirSource())
 ###############################################
 # use these to remove fine grained distinctions
 ###############################################
-corpus <- tm_map(corpus, removePunctuation) 
+corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus, removeNumbers)
 corpus <- tm_map(corpus, toupper)
 
 ###############################################
-# use this to remove functions that are causing noise
+# use this to remove functions that are causing noise (if desired)
 ###############################################
-corpus <- tm_map(corpus, removeWords, c("MOVE")) #remove other functions
+#corpus <- tm_map(corpus, removeWords, c("MOVE", "return", "A")) #remove other functions
 
 ###############################################
 # play around with this: sometimes whitespace is your friend
@@ -51,7 +53,7 @@ corpus <- tm_map(corpus, stripWhitespace)
 # given the tiny size of this database
 ###############################################
 ngrams <- RWeka::NGramTokenizer(corpus, Weka_control(min=3, max=3))
-
+print(ngrams)
 ###############################################
 # not sure if weighting function is appropriate yet
 ###############################################
@@ -62,27 +64,35 @@ ngrams <- RWeka::NGramTokenizer(corpus, Weka_control(min=3, max=3))
 # tf weighting with ngrams
 # dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightTf))
 # tf weighting no ngrams
-# dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightTf))
+ dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightTf))
+# binary weighting, no ngrams
+dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightBin))
+# smart weighting, with ngrams
+dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightSMART))
+# no weight, just ngrams
+# dtm <- DocumentTermMatrix(corpus, control = list(ngrams))
 # no weighting, no ngrams
- dtm <- DocumentTermMatrix(corpus)
+#dtm <- DocumentTermMatrix(corpus)
 
 ###############################################
 # use these lines to eliminate tales with no or NAN functions
 ###############################################
-rowTotals <- apply(dtm , 1, sum) #Find the sum of words in each Document
-dtm <- dtm[rowTotals> 0] #remove all docs without words
-
+# use these lines with caution
+###############################################
+#rowTotals <- apply(dtm , 1, sum) #Find the sum of words in each Document
+#dtm <- dtm[rowTotals> 0] #remove all docs without words
+print(dtm)
 ###############################################
 # eliminate hapax legomena (singleton) function-grams
-#  the lower the threshold, the less sparse the function-tale matrix becomes
+# the lower the threshold, the less sparse the function-tale matrix becomes
 ###############################################
-dtm <- removeSparseTerms(dtm, .99)
-
+#dtm <- removeSparseTerms(dtm, .99)
+print(dtm)
 ###############################################
 # use distance method: "centroid", "ward", "complete", "mcquitty", etc.
 ###############################################
-dtm_complete <- hclust(dist(dtm), members=NULL, method="complete")
-dtm_distro <- hclust(dist(dtm), members=NULL, method="ward")
+dtm_complete <- hclust(dist(dtm), method="complete")
+dtm_distro <- hclust(dist(dtm), method="centroid")
 
 ###############################################
 # plot hierarchical dendrogram of cluster of tale/function matrix
@@ -93,11 +103,11 @@ plot(dtm_complete, col="#487AA1", col.main="#45ADA8", col.lab="#7C8071",
      col.axis="#F38630", lwd=1, lty=1, sub='', hang=-1, axes=FALSE,
      main = "Cluster Dendrogram Representing \n Magic Tale Similarity",
      xlab="Magic Tale Name", ylab = "Distance given absence/presence of Proppian Functions/Narremes")
-     
+
 par(op)
 
-plot(dtm_complete, hang=1, axes = TRUE, ann=TRUE, main = "Cluster Dendrogram Representing Magic Tale Similarity",
-      xlab="Magic Tale Name", ylab = "Distance")
+plot(dtm_complete, hang=0, axes = TRUE, ann=TRUE, main = "Cluster Dendrogram Representing Magic Tale Similarity",
+     xlab="Magic Tale Name", ylab = "Distance")
 
 phyl <- as.phylo(hclust(dtm_distro))
 plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.length > 20)])
@@ -105,4 +115,7 @@ plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.le
 ################################################
 # observe how particular functions are correlated or not
 ################################################
-plot(dtm, corThreshold=.01)
+plot(dtm, corThreshold=.5)
+################################################
+
+
