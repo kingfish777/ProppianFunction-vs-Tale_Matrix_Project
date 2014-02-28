@@ -269,9 +269,9 @@ _________________
 
 ___________________________________________________________________________________
 #R libraries used: 
-* ape
-* Rgraphviz
-* tm
+* ape ( http://bioinformatics.oxfordjournals.org/content/20/2/289.abstract )
+* Rgraphviz - Bioconditor's interface for R to graphviz data visualization platform
+* tm - popular textmining package for R
 
 ___________________________________________________________________________________
 
