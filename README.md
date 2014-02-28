@@ -1,5 +1,4 @@
-##Adventures in Proppian Function-Magic Tale Matrices
-## with Russian Magic Tales from Appendix III of Propp's Morphology of the Fairy Tale
+##Adventures in Proppian Function-Magic Tale Matrices with Russian Magic Tales from Appendix III of Propp's Morphology of the Fairy Tale
 
 _________________
 93 Sun_Sister.txt
