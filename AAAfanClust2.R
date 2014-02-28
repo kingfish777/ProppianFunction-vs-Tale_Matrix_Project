@@ -1,6 +1,5 @@
 ###############################################
-#
-# Author: Scott Malec
+# Author: Scott Alexander Malec
 # Title: _AfanClust2.R
 # Purpose: adventures in function/tale clustering
 # with coded data from Appendix III
@@ -61,13 +60,13 @@ print(ngrams)
 # tf/idf with ngrams
 #dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightTfIdf))
 # tf/idf, no ngrams
-#dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightTfIdf))
+dtm <- DocumentTermMatrix(corpus, control = list( control = list(weighting = function (x)  weightTfIdf(x, normalize = TRUE))))
 # tf weighting with ngrams
 # dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightTf))
 # tf weighting no ngrams
  dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightTf))
 # binary weighting, no ngrams
-dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightBin))
+dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightBin))
 # smart weighting, with ngrams
 dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightSMART))
 # no weight, just ngrams
@@ -107,7 +106,7 @@ plot(dtm_complete, col="#487AA1", col.main="#45ADA8", col.lab="#7C8071",
 
 par(op)
 
-plot(dtm_complete, hang=0, axes = TRUE, ann=TRUE, main = "Cluster Dendrogram Representing Magic Tale Similarity",
+plot(dtm_complete, hang=1, axes = TRUE, ann=TRUE, main = "Cluster Dendrogram Representing Magic Tale Similarity",
      xlab="Magic Tale Name", ylab = "Distance")
 
 phyl <- as.phylo(hclust(dtm_distro))
@@ -116,7 +115,7 @@ plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.le
 ################################################
 # observe how particular functions are correlated or not
 ################################################
-plot(dtm, corThreshold=.5)
+plot(dtm, corThreshold=.2)
 ################################################
 
 ################################################
@@ -126,7 +125,7 @@ LSAspace <- lsa(dtm,dims=dimcalc_raw())
 # svd(dtm)
 # round(LSAspace$tk %*% diag(LSAspace$sk) %*% t(LSAspace$dk))
 
-newLSAspace <- lsa(dtm, dims=3)
+newLSAspace <- lsa(dtm, dims=2)
 new_dtm <- round(as.textmatrix(newLSAspace),2)
 #associate(dtm, "a_1")
 #new_dtm$dimnames
@@ -138,4 +137,3 @@ t.locations <- newLSAspace$tk %*% diag(newLSAspace$sk)
 plot(t.locations, type="n")
 text(t.locations, labels=rownames(newLSAspace$tk))
 t.locations
-
