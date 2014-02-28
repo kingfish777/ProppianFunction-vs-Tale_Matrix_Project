@@ -13,6 +13,7 @@
 ###############################################
 # load libraries
 ###############################################
+library(lsa)  # latent semantic analysis aka Singular Value Decomposition (SVD)
 library(tm) # R text mining module
 library(RWeka) # Weka data mining
 library(ape) # http://bioinformatics.oxfordjournals.org/content/20/2/289.abstract
@@ -118,4 +119,23 @@ plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.le
 plot(dtm, corThreshold=.5)
 ################################################
 
+################################################
+# LSA fun
+################################################
+LSAspace <- lsa(dtm,dims=dimcalc_raw())
+# svd(dtm)
+# round(LSAspace$tk %*% diag(LSAspace$sk) %*% t(LSAspace$dk))
+
+newLSAspace <- lsa(dtm, dims=3)
+new_dtm <- round(as.textmatrix(newLSAspace),2)
+#associate(dtm, "a_1")
+#new_dtm$dimnames
+
+####################################
+# plot LSA analysis of tales 
+###################################
+t.locations <- newLSAspace$tk %*% diag(newLSAspace$sk)
+plot(t.locations, type="n")
+text(t.locations, labels=rownames(newLSAspace$tk))
+t.locations
 
