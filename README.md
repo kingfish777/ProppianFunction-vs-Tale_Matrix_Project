@@ -1,6 +1,9 @@
 ##Adventures in Proppian Function-Magic Tale Matrices with Russian Magic Tales from Appendix III of Propp's Morphology of the Fairy Tale
 
-
+TO DO: 
+  * create function break multi-MOVE tales by new line/MOVE
+  * implement multidimension scaling (mds) / principle component analysis (pca) and the like
+  
 _________________
 KEY for SYMBOLS USED BELOW: 
    http://clover.slavic.pitt.edu/sam/propp/praxis/features.html
@@ -275,7 +278,8 @@ _________________
 
 ___________________________________________________________________________________
 #R libraries used: 
-* ape ( http://ape-package.ird.fr/ )
+* ape - Analsysis for Phylogenetic Evolution ( http://ape-package.ird.fr/ )
+* lsa - latent semantic analysis / singular value decomposition (SVD)
 * Rgraphviz - Bioconditor's interface for R to graphviz data visualization platform
 * tm - popular textmining package for R
 
