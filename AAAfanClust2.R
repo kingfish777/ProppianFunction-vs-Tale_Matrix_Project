@@ -137,3 +137,31 @@ t.locations <- newLSAspace$tk %*% diag(newLSAspace$sk)
 plot(t.locations, type="n")
 text(t.locations, labels=rownames(newLSAspace$tk))
 t.locations
+
+####################################
+# new /tm/ package stuff!
+####################################
+
+
+tm::Zipf_plot(dtm)
+tm::Heaps_plot(dtm)
+tm::dissimilarity(x=corpus$Baba_Jaga_N106.txt, y=corpus$Baba_Jaga_and_the_Brave_Youth_N105.txt, method="canberra")
+tm::dissimilarity(x=corpus$Jack_Frost_N95.txt, y=corpus$Jack_Frost_N95.txt, method="canberra")
+tm::dissimilarity(x=corpus$Jack_Frost_N95.txt, y=corpus$Mares_Head_N98.txt, method="canberra")
+tm::dissimilarity(x=corpus$Baba_Jaga_and_the_Brave_Youth_N105.txt, y=corpus$Baba_Jaga_N106.txt, method="canberra")
+
+tm::dissimilarity(x=corpus$Koshchey_the_Deathless_N156.txt, y=corpus$Baba_Jaga_and_the_Brave_Youth_N105.txt, method="canberra")
+# 28.86667
+tm::dissimilarity(x=corpus$Sun_Sister_N93.txt, y=corpus$The_Seven_Semyons_N145.txt, method="canberra")
+
+compare <- function(k) { tm::dissimilarity(x=k, y=corpus$The_Flying_Ship_N144.txt, method="canberra") }
+
+tale_comparison <- lapply(as.list(corpus), compare)
+#####################
+
+tale_comparison$According_to_Pike_N167.txt[1]
+
+get_score <- function(i) { i[1] }
+
+make_a_deal <- lapply(tale_comparison, get_score)
+make_a_deal
