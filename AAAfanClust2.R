@@ -1,6 +1,6 @@
 ###############################################
 # Author: Scott Alexander Malec
-# Title: _AfanClust2.R
+# Title: Transposition_AfanClust2.R
 # Purpose: adventures in function/tale clustering
 # with coded data from Appendix III
 # of Vladimir Propp's Morphology of the Fairy Tale (1928)
@@ -26,33 +26,36 @@ library(Rgraphviz) #bioConductor's interface to GraphViz, powerful data visualiz
 home <- "/home/hinckley"
 homePath = paste(home, "/Public/DFuncM", sep="") # git pull from github, delete junk, put R scripts in separate folder at higher level
 setwd(paste(homePath, sep=""))
-text <- system.file("texts", "txt", package="tm");
+text <- system.file("texts", "txt", package="tm")
 corpus <- Corpus(DirSource())
+print(corpus[[13]])
 
 ###############################################
 # use these to remove fine grained distinctions
 ###############################################
 corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus, removeNumbers)
-corpus <- tm_map(corpus, toupper)
+corpus <- tm_map(corpus, tolower)
+print(corpus[[13]])
 
 ###############################################
 # use this to remove functions that are causing noise (if desired)
 ###############################################
-#corpus <- tm_map(corpus, removeWords, c("MOVE", "return", "A")) #remove other functions
+corpus <- tm_map(corpus, removeWords, c("MOVE")) #, "return", "A")) #remove other functions
 
 ###############################################
 # play around with this: sometimes whitespace is your friend
 # but I'd say the verdict may be out on this step
 ###############################################
-corpus <- tm_map(corpus, stripWhitespace)
+#corpus <- tm_map(corpus, stripWhitespace)
+#print(corpus[[13]])
 
 ###############################################
 # ngrams of functions, to decrease perplexity in our Proppian function model
 # ... probably best used when snippet above to remove fine grained distinctions
 # given the tiny size of this database
 ###############################################
-ngrams <- RWeka::NGramTokenizer(corpus, Weka_control(min=3, max=3))
+ngrams <- RWeka::NGramTokenizer(corpus, Weka_control(min=1, max=2))
 print(ngrams)
 ###############################################
 # not sure if weighting function is appropriate yet
@@ -60,20 +63,39 @@ print(ngrams)
 # tf/idf with ngrams
 #dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightTfIdf))
 # tf/idf, no ngrams
-dtm <- DocumentTermMatrix(corpus, control = list( control = list(weighting = function (x)  weightTfIdf(x, normalize = TRUE))))
+dtm <- DocumentTermMatrix(corpus, control = list( control = list(ngrams, weighting = function (x)  weightTfIdf(x, normalize = TRUE))))
+dtm$dimnames$Terms
 # tf weighting with ngrams
 # dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightTf))
 # tf weighting no ngrams
  dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightTf))
+dtm$dimnames$Terms
 # binary weighting, no ngrams
 dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightBin))
+dtm$dimnames$Terms
+dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightBin))
+dtm$dimnames$Terms
 # smart weighting, with ngrams
 dtm <- DocumentTermMatrix(corpus, control = list(ngrams, weighting = weightSMART))
+dtm$dimnames$Terms
+dtm <- DocumentTermMatrix(corpus, control = list(weighting = weightSMART))
+dtm$dimnames$Terms
 # no weight, just ngrams
 # dtm <- DocumentTermMatrix(corpus, control = list(ngrams))
 # no weighting, no ngrams
-#dtm <- DocumentTermMatrix(corpus)
-
+dtm <- DocumentTermMatrix(corpus)
+dtm$dimnames$Terms
+dtm <- DocumentTermMatrix(corpus, control = list(ngrams))
+dtm$dimnames$Terms
+####################
+# obvious bug/kink in tm/weka
+# switching over to RTextTools
+####################
+#library(RTextTools)
+#dtm <- t(RTextTools::create_matrix(corpus, ngramLength=3, maxDocFreq=1))
+#dtm$dimnames$Terms
+#dtm <- RTextTools::create_matrix(corpus, ngramLength=3, maxDocFreq=1)
+#dtm$dimnames$Terms
 ###############################################
 # use these lines to eliminate tales with no or NAN functions
 ###############################################
@@ -86,12 +108,13 @@ print(dtm)
 # eliminate hapax legomena (singleton) function-grams
 # the lower the threshold, the less sparse the function-tale matrix becomes
 ###############################################
-#dtm <- removeSparseTerms(dtm, .99)
+dtm <- removeSparseTerms(dtm, .875)
+dtm$dimnames
 print(dtm)
 ###############################################
 # use distance method: "centroid", "ward", "complete", "mcquitty", etc.
 ###############################################
-dtm_complete <- hclust(dist(dtm), method="complete")
+dtm_complete <- hclust(dist(dtm), method="ward")
 dtm_distro <- hclust(dist(dtm), method="centroid")
 
 ###############################################
@@ -115,7 +138,7 @@ plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.le
 ################################################
 # observe how particular functions are correlated or not
 ################################################
-plot(dtm, corThreshold=.2)
+plot(dtm, corThreshold=.002)
 ################################################
 
 ################################################
@@ -126,7 +149,7 @@ LSAspace <- lsa(dtm,dims=dimcalc_raw())
 # round(LSAspace$tk %*% diag(LSAspace$sk) %*% t(LSAspace$dk))
 
 newLSAspace <- lsa(dtm, dims=2)
-new_dtm <- round(as.textmatrix(newLSAspace),2)
+new_dtm <- round(t(as.textmatrix(newLSAspace),2))
 #associate(dtm, "a_1")
 #new_dtm$dimnames
 
@@ -137,16 +160,11 @@ t.locations <- newLSAspace$tk %*% diag(newLSAspace$sk)
 plot(t.locations, type="n")
 text(t.locations, labels=rownames(newLSAspace$tk))
 t.locations
-
-####################################
-# new /tm/ package stuff!
-####################################
+corpus[[13]]
 
 
 tm::Zipf_plot(dtm)
 tm::Heaps_plot(dtm)
-# other methods for proxy::dist include:
-#   "euclidian", "canberra", "manhattan", "maximum", "binary", "minkokwski"
 tm::dissimilarity(x=corpus$Baba_Jaga_N106.txt, y=corpus$Baba_Jaga_and_the_Brave_Youth_N105.txt, method="canberra")
 tm::dissimilarity(x=corpus$Jack_Frost_N95.txt, y=corpus$Jack_Frost_N95.txt, method="canberra")
 tm::dissimilarity(x=corpus$Jack_Frost_N95.txt, y=corpus$Mares_Head_N98.txt, method="canberra")
@@ -158,7 +176,7 @@ tm::dissimilarity(x=corpus$Sun_Sister_N93.txt, y=corpus$The_Seven_Semyons_N145.t
 
 compare <- function(k) { tm::dissimilarity(x=k, y=corpus$The_Flying_Ship_N144.txt, method="canberra") }
 compare <- function(k) { tm::dissimilarity(x=k, y=corpus$Mares_Head_N98.txt, method="canberra") }
-compare <- function(k) { tm::dissimilarity(x=k, y=corpus$Jack_Frost_N95.tx, method="canberra") }
+compare <- function(k) { tm::dissimilarity(x=k, y=corpus$Jack_Frost_N95.tx, method="euclidian") }
 
 tale_comparison <- lapply(as.list(corpus), compare)
 #####################
@@ -169,3 +187,21 @@ get_score <- function(i) { i[1] }
 
 make_a_deal <- lapply(tale_comparison, get_score)
 make_a_deal
+####
+library(pca3d)
+pca3d::pca3d(pca=prcomp(x=dtm), show.labels=dtm$dimnames$Doc)
+
+
+####
+#MDS
+####
+
+euclid_dist_dtm <- dist(dtm)
+fit <- cmdscale(euclid_dist_dtm, eig=TRUE, k=2)
+print(fit)
+x <- fit$points[,1]
+y <- fit$points[,2]
+plot(x, y, xlab="Coordinate 1", ylab="Coordinate 2",
+     main="Metric MDS between Tales using Proppian Functions", type="n")
+text(x, y, labels = row.names(dtm), cex=.7)
+   # confirming the strangeness of Koshchey the Deathless
