@@ -38,8 +38,15 @@ plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.le
 
 #see how well particular functions correlate with each other above or beneath a threshold value
 plot(dtm, corThreshold=.1)
+###################
+# plot Zipf on Proppian functions ("is it a language, perplexity-wise?"
+###################
 tm::Zipf_plot(dtm)
+###################
+# can the behavior of functions be described by Heaps law? 
+###################
 tm::Heaps_plot(dtm)
+#################
 
 
 
