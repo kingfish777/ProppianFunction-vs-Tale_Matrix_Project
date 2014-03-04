@@ -38,7 +38,8 @@ plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.le
 
 #see how well particular functions correlate with each other above or beneath a threshold value
 plot(dtm, corThreshold=.1)
-
+tm::Zipf_plot(dtm)
+tm::Heaps_plot(dtm)
 
 
 
