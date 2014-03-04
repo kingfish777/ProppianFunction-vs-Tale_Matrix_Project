@@ -8,7 +8,6 @@
 # TO DO: create function to subdivide each function file at new line 
 #  (which represents a move)
 ###############################################
-
 ###############################################
 # load libraries
 ###############################################
@@ -18,8 +17,6 @@ library(RWeka) # Weka data mining
 library(ape) # http://bioinformatics.oxfordjournals.org/content/20/2/289.abstract
 # Analysis for Phylogenetic Evolution in R language
 library(Rgraphviz) #bioConductor's interface to GraphViz, powerful data visualization tool
-
-
 ###############################################
 # reset this directory to where you unzip/git pull your function texts
 ###############################################
@@ -29,7 +26,6 @@ setwd(paste(homePath, sep=""))
 text <- system.file("texts", "txt", package="tm")
 corpus <- Corpus(DirSource())
 print(corpus[[13]])
-
 ###############################################
 # use these to remove fine grained distinctions
 ###############################################
@@ -37,19 +33,16 @@ corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus, removeNumbers)
 corpus <- tm_map(corpus, tolower)
 print(corpus[[13]])
-
 ###############################################
 # use this to remove functions that are causing noise (if desired)
 ###############################################
 corpus <- tm_map(corpus, removeWords, c("MOVE")) #, "return", "A")) #remove other functions
-
 ###############################################
 # play around with this: sometimes whitespace is your friend
 # but I'd say the verdict may be out on this step
 ###############################################
 #corpus <- tm_map(corpus, stripWhitespace)
 #print(corpus[[13]])
-
 ###############################################
 # ngrams of functions, to decrease perplexity in our Proppian function model
 # ... probably best used when snippet above to remove fine grained distinctions
@@ -116,7 +109,6 @@ print(dtm)
 ###############################################
 dtm_complete <- hclust(dist(dtm), method="ward")
 dtm_distro <- hclust(dist(dtm), method="centroid")
-
 ###############################################
 # plot hierarchical dendrogram of cluster of tale/function matrix
 ###############################################
@@ -126,15 +118,18 @@ plot(dtm_complete, col="#487AA1", col.main="#45ADA8", col.lab="#7C8071",
      col.axis="#F38630", lwd=1, lty=1, sub='', hang=-1, axes=FALSE,
      main = "Cluster Dendrogram Representing \n Magic Tale Similarity",
      xlab="Magic Tale Name", ylab = "Distance given absence/presence of Proppian Functions/Narremes")
-
+################################################
+# plot cluster dendrogram representing magic tale similarity
+################################################
 par(op)
-
 plot(dtm_complete, hang=1, axes = TRUE, ann=TRUE, main = "Cluster Dendrogram Representing Magic Tale Similarity",
      xlab="Magic Tale Name", ylab = "Distance")
-
+     
+################################################
+# work on this ---> ape package functionality
+################################################
 phyl <- as.phylo(hclust(dtm_distro))
 plot(phyl, edge.col=c("blue", "green", "red")[c(TRUE, FALSE) + 1 + (phyl$edge.length > 20)])
-
 ################################################
 # observe how particular functions are correlated or not
 ################################################
@@ -152,7 +147,6 @@ newLSAspace <- lsa(dtm, dims=2)
 new_dtm <- round(t(as.textmatrix(newLSAspace),2))
 #associate(dtm, "a_1")
 #new_dtm$dimnames
-
 ####################################
 # plot LSA analysis of tales 
 ###################################
@@ -161,10 +155,17 @@ plot(t.locations, type="n")
 text(t.locations, labels=rownames(newLSAspace$tk))
 t.locations
 corpus[[13]]
-
-
+########################
+# Zipfs law
+########################
 tm::Zipf_plot(dtm)
+########################
+# Heaps law
+########################
 tm::Heaps_plot(dtm)
+########################
+#
+########################
 tm::dissimilarity(x=corpus$Baba_Jaga_N106.txt, y=corpus$Baba_Jaga_and_the_Brave_Youth_N105.txt, method="canberra")
 tm::dissimilarity(x=corpus$Jack_Frost_N95.txt, y=corpus$Jack_Frost_N95.txt, method="canberra")
 tm::dissimilarity(x=corpus$Jack_Frost_N95.txt, y=corpus$Mares_Head_N98.txt, method="canberra")
@@ -187,15 +188,14 @@ get_score <- function(i) { i[1] }
 
 make_a_deal <- lapply(tale_comparison, get_score)
 make_a_deal
-####
+###########################
+# PCA ---> of function or of tale (adjust variables appropriately)
+###########################
 library(pca3d)
 pca3d::pca3d(pca=prcomp(x=dtm), show.labels=dtm$dimnames$Doc)
-
-
 ####
 #MDS
 ####
-
 euclid_dist_dtm <- dist(dtm)
 fit <- cmdscale(euclid_dist_dtm, eig=TRUE, k=2)
 print(fit)
@@ -205,3 +205,11 @@ plot(x, y, xlab="Coordinate 1", ylab="Coordinate 2",
      main="Metric MDS between Tales using Proppian Functions", type="n")
 text(x, y, labels = row.names(dtm), cex=.7)
    # confirming the strangeness of Koshchey the Deathless
+#
+#
+#
+#
+#
+#
+#
+############################################################
