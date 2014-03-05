@@ -44,6 +44,7 @@ plot(dtm, corThreshold=.1)
 tm::Zipf_plot(dtm)
 ###################
 # can the behavior of functions be described by Heaps law? 
+# http://en.wikipedia.org/wiki/Heaps%27_law
 ###################
 tm::Heaps_plot(dtm)
 #################
