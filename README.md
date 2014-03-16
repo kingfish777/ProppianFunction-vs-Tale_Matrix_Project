@@ -6,8 +6,7 @@ TO DO:
   
 _________________
 KEY for SYMBOLS USED BELOW: 
-   http://clover.slavic.pitt.edu/sam/propp/praxis/features.html
-
+   https://web.archive.org/web/20100413220910/http://clover.slavic.pitt.edu/sam/propp/praxis/features.html
 
 
 _________________
